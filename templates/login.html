@@ -1,0 +1,52 @@
+{% extends "base.html" %} {% block content %}
+
+<section id="login-modal" class="fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4">
+    <form method="post" action="{% url 'login' %}">
+        {% csrf_token %}
+        <div class="bg-[#161d25] p-6 sm:p-8 rounded-lg border border-[#313842] relative w-full max-w-[400px]">
+            <a href="{% url 'home' %}" id="close-modal" class="absolute top-3 right-4 text-[#A5BBDC] hover:text-white text-2xl transition no-underline">&times;</a>
+
+            <h2 class="text-xl sm:text-2xl text-center mb-6 text-[#A5BBDC] font-semibold">Tizimga kirish</h2>
+
+
+            {% if messages %}
+            <div class="mb-4 space-y-2">
+                {% for message in messages %}
+                <div class="p-3 text-xs font-medium rounded flex items-center gap-2 {% if message.tags == 'error' %} bg-red-900/40 text-red-300 border border-red-700/50 {% else %} bg-yellow-900/40 text-yellow-300 border border-yellow-700/50 {% endif %}">
+                    <i class="fa-solid fa-circle-exclamation text-sm"></i>
+                    <span>{{ message }}</span>
+                </div>
+                {% endfor %}
+            </div>
+            {% endif %}
+
+            <div class="w-full flex bg-[#28313E] rounded mb-3 items-center px-3 border border-transparent focus-within:border-[#638b34] transition">
+                <span class="text-[#A5BBDC]"><i class="fa-solid fa-user"></i></span>
+                <input class="w-full h-[40px] bg-[#28313E] text-white pl-3 outline-none text-sm" type="text" name="username" placeholder="Login kiriting" required>
+            </div>
+
+
+            <div class="w-full flex bg-[#28313E] rounded mb-5 items-center px-3 border border-transparent focus-within:border-[#638b34] transition">
+                <span class="text-[#A5BBDC]"><i class="fa-solid fa-key"></i></span>
+                <input class="w-full h-[40px] bg-[#28313E] text-white pl-3 outline-none text-sm" type="password" name="password" placeholder="Parol" required>
+            </div>
+
+
+            <div class="w-full">
+                <button type="submit" class="w-full h-[40px] text-[#fff] bg-[#638b34] hover:bg-[#4d6d28] rounded font-medium transition text-sm cursor-pointer">
+                    Kirish
+                </button>
+            </div>
+
+            <div class="mt-4 text-center">
+                <p class="text-xs text-[#A5BBDC]">
+                    Akkountingiz yo'qmi?
+                    <a href="{% url 'register' %}" class="text-[#638b34] hover:underline font-semibold">Ro'yxatdan
+                        o'tish</a>
+                </p>
+            </div>
+        </div>
+    </form>
+</section>
+
+{% endblock %}

@@ -1,0 +1,94 @@
+{% extends "base.html" %} {% block content %}
+
+<div class="w-full h-[830px] bg-[#008711] text-white flex items-center justify-center p-[16px] ">
+    <div class="w-full max-w-[480px] text-center">
+
+        <div class="relative flex justify-between items-center mb-10 text-xs font-bold">
+
+
+
+            <div class="">
+                <div class="w-[8px] h-[8px] bg-[#79d636] rounded-full mx-auto mb-[4px]"></div>
+                Create your account
+            </div>
+            <div class="ml-[25px]">
+                <div class="w-[8px] h-[8px] border border-white rounded-full mx-auto mb-[4px]"></div>
+                Tell us who you are
+            </div>
+            <div class="ml-[25px]">
+                <div class="w-[8px] h-[8px] border border-white rounded-full mx-auto mb-[4px] bg-[#008711]"></div>
+                Confirm your identity
+            </div>
+        </div>
+
+        <h1 class="text-[30px] font-extrabold mb-[24px] ">Create your account</h1>
+
+        {% if messages %}
+        <div class="mb-[12px] ">
+            {% for message in messages %}
+            <div class="flex items-center  text-black text-[14px] font-bold mb-[4px] ">
+                <span class="text-[#ffcc00] text-[16px]">⚠️</span>
+                <span>{{ message }}</span>
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        <form method="post" action="{% url 'register' %}" class="text-left">
+
+
+            <input type="hidden" id="username_hidden" name="username" value="">
+
+            <div>
+                <label class="block font-bold text-sm mb-[6px]">Email address</label>
+                <input type="email" id="email_input" name="email" required oninput="document.getElementById('username_hidden').value = this.value" class="w-full h-12 px-3 rounded bg-white text-black text-base outline-none border-2 border-transparent focus:border-[#ff8c00] transition">
+            </div>
+
+            <div>
+                <label class="block font-bold text-sm mb-[6px]">Password</label>
+                <p class="text-xs text-gray-100 mb-[6px]">Must be at least 8 characters</p>
+                <div class="relative">
+                    <input id="password" type="password" name="password" minlength="8" required class="w-full h-12 px-3 pr-16 rounded bg-white text-black text-base outline-none border-2 border-transparent focus:border-[#ff8c00] transition">
+                    <button type="button" onclick="togglePassword('password', 'show-btn')" class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 text-sm font-semibold hover:text-gray-600 cursor-pointer">
+                        <span id="show-btn">Show</span>
+                    </button>
+                </div>
+            </div>
+
+            <input type="hidden" id="confirm_password_hidden" name="confirm_password" value="">
+
+            <button type="submit" onclick="document.getElementById('confirm_password_hidden').value = document.getElementById('password').value" class="w-full bg-[#4ed100] hover:bg-[#45b800] text-black font-bold h-12 rounded transition text-base mt-2 cursor-pointer">
+                Sign up
+            </button>
+        </form>
+
+        <div class="mt-4">
+            <a href="{% url 'login' %}" class="font-bold text-sm hover:underline">Log in instead</a>
+        </div>
+
+
+        <p class="text-[11px] text-gray-200 mt-6 leading-relaxed">
+            By creating an account, you accept Intuit Credit Karma’s
+            <a href="#" class="underline font-medium">Terms of Service</a> and
+            <a href="#" class="underline font-medium">Privacy Statement</a>
+        </p>
+
+    </div>
+</div>
+
+<script>
+    function togglePassword(inputId, btnId) {
+        const input = document.getElementById(inputId);
+        const btn = document.getElementById(btnId);
+
+        if (input.type === "password") {
+            input.type = "text";
+            btn.innerText = "Hide";
+        } else {
+            input.type = "password";
+            btn.innerText = "Show";
+        }
+    }
+</script>
+
+{% endblock %}

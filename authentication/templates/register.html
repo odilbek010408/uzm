@@ -1,0 +1,118 @@
+{% extends "base.html" %} {% block content %}
+<div class="w-full h-full md:h-[500px] mt-[-200px] md:mt-[-370px]">
+    <div class="w-[1100px] max-w-[590px] mx-auto px-4 md:p-[100px] mt-[300px]">
+
+        <h2 class="text-[#a5bbdc] text-center font-md text-[24px] mb-[20px]">
+            Ro‘yxatdan o‘tish
+        </h2>
+
+        {% if messages %}
+        <div class="w-full max-w-[400px] mx-auto mb-4 text-center">
+            {% for message in messages %}
+            <div class="p-2 text-sm rounded bg-red-500 text-white {% if message.tags == 'success' %}bg-green-500{% endif %}">
+                {{ message }}
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        <!-- <form method="post" id="regForm">
+            {% csrf_token %}
+            <div class="w-full max-w-[400px] h-[40px] bg-[#28313e] rounded-[5px] flex items-center mx-auto">
+                <span class="w-[39px] h-[40px] bg-[#333d4d] text-center p-2 text-[#6e879f]">
+                    <i class="fa-solid fa-envelope"></i>
+                </span>
+                <label for="name" class="block mb-[5px] text-[#666] text-sm">Ismingiz:</label>
+                <input class="w-full h-[40px] bg-[#28313e] ml-[20px] text-sm text-white outline-none" name="email" type="email" placeholder="Email manzil" required>
+            </div>
+
+            <div class="w-full max-w-[400px] h-[40px] bg-[#28313e] rounded-[5px] flex items-center mx-auto mt-[10px]">
+                <span class="w-[39px] h-[40px] bg-[#333d4d] text-center p-2 text-[#6e879f]">
+                    <i class="fa-solid fa-user"></i>
+                </span>
+                <label for="phone" class="block mb-[5px] text-[#666] text-sm">Telefon raqamingiz:</label>
+                <input class="w-full h-[40px] bg-[#28313e] ml-[20px] text-sm text-white outline-none" name="username" type="text" placeholder="Login" required>
+            </div>
+
+            <div class="w-full max-w-[400px] h-[40px] bg-[#28313e] rounded-[5px] flex items-center mx-auto mt-[10px]">
+                <span class="w-[39px] h-[40px] bg-[#333d4d] text-center p-2 text-[#6e879f]">
+                    <i class="fa-solid fa-lock"></i>
+                </span>
+                <input class="w-full h-[40px] bg-[#28313e] ml-[20px] text-sm text-white outline-none" name="password" type="password" placeholder="Parol" required>
+            </div>
+
+            <div class="w-full max-w-[400px] h-[40px] bg-[#28313e] rounded-[5px] flex items-center mx-auto mt-[10px]">
+                <span class="w-[39px] h-[40px] bg-[#333d4d] text-center p-2 text-[#6e879f]">
+                    <i class="fa-solid fa-lock"></i>
+                </span>
+                <input class="w-full h-[40px] bg-[#28313e] ml-[20px] text-sm text-white outline-none" name="confirm_password" type="password" placeholder="Parolni tasdiqlash" required>
+            </div>
+
+            <div class="w-full max-w-[300px] mx-auto mt-[10px] flex items-center">
+                <input class="w-[20px] mt-[5px]" type="checkbox" required>
+                <a class="text-sm p-1 text-[#6e879f]" href="#">
+                    foydalanuvchi shartlariga roziman
+                </a>
+            </div>
+
+            <div class="w-full max-w-[400px] mx-auto mt-[10px]">
+                <button type="submit" class="w-full bg-[#638b34] h-[34px] text-center p-1 text-[#fff] rounded-[5px] hover:bg-[#52742b] transition-all">
+                    Davom etish
+                </button>
+            </div>
+        </form> -->
+        <div class="bg-white p-[30px] rounded-[12px] shadow-[0_4px_15px_rgba(0,0,0,0.1)] w-full max-w-[380px]">
+            <h2 class="mt-0 text-center text-[#333] text-2xl font-bold mb-5">Ro'yxatdan o'tish</h2>
+
+            <form id="regForm">
+                <div class="mb-[15px]">
+                    <label for="name" class="block mb-[5px] text-[#666] text-sm">Ismingiz:</label>
+                    <input type="text" id="name" placeholder="Masalan: Ali" required class="w-full text-white p-[10px] border border-[#ccc] rounded-[6px] text-base focus:outline-none focus:border-[#0088cc]">
+                </div>
+
+                <div class="mb-[15px]">
+                    <label for="email" class="block mb-[5px] text-[#666] text-sm">Elektron pochta manzilingiz:</label>
+                    <input type="email" id="email" placeholder="example@gmail.com" required class="w-full text-white p-[10px] border border-[#ccc] rounded-[6px] text-base focus:outline-none focus:border-[#0088cc]">
+                </div>
+
+                <button type="submit" class="w-full p-[12px] text-base text-white bg-[#0088cc] border-none rounded-[6px] font-bold cursor-pointer hover:bg-[#006699] transition-colors">
+            Ro'yxatdan o'tish
+        </button>
+            </form>
+        </div>
+    </div>
+</div>
+<script>
+    document.getElementById('regForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        const name = document.getElementById('name').value;
+        const email = document.getElementById('email').value;
+
+        fetch('http://127.0.0.1:5000/register', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    name: name,
+                    email: email
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    alert("✅ Ro'yxatdan o'tdingiz! Ma'lumotlar Telegramga yuborildi.");
+                    document.getElementById('regForm').reset();
+                } else {
+                    alert("❌ Xatolik: " + data.message);
+                }
+            })
+            .catch(error => {
+                console.error("Xatolik:", error);
+                alert("Server bilan bog'lanib bo'lmadi. Python (app.py) yoniqligini tekshiring.");
+            });
+    });
+</script>
+
+{% endblock %}
